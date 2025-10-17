@@ -17,6 +17,7 @@ const DOWNLOAD_BUTTON = "bg-primary dark:bg-primary-dark text-surface dark:text-
 
 export default function ResumePage() {
   const [language, setLanguage] = useState<Language>("en");
+  const [isDownloading, setIsDownloading] = useState(false);
   const t = translations[language];
 
   useEffect(() => {
@@ -26,6 +27,39 @@ export default function ResumePage() {
       metaDescription.setAttribute("content", "Professional work experience and skills of kistasi (Márton Tasnádi), full-stack software developer");
     }
   }, [t.title]);
+
+  const handleDownloadPdf = async () => {
+    try {
+      setIsDownloading(true);
+      const filename = language === "hu" ? "tasnadi-marton-cv.pdf" : "marton-tasnadi-cv.pdf";
+
+      // Fetch PDF as blob to work around iOS Firefox download attribute issues
+      const response = await fetch(`/api/resume/pdf?lang=${language}`);
+
+      if (!response.ok) {
+        throw new Error("Failed to generate PDF");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+
+      // Append to body, click, and remove
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Clean up the object URL
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("PDF download error:", error);
+      alert("Failed to download PDF. Please try again.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background dark:bg-background-dark py-12 px-6 transition-colors duration-200">
@@ -58,13 +92,13 @@ export default function ResumePage() {
             <Link href="/" className={`${ACTION_BUTTON_BASE} ${BACK_BUTTON}`}>
               {t.backButton}
             </Link>
-            <a
-              href={`/api/resume/pdf?lang=${language}`}
-              download={language === "hu" ? "tasnadi-marton-cv.pdf" : "marton-tasnadi-cv.pdf"}
-              className={`${ACTION_BUTTON_BASE} ${DOWNLOAD_BUTTON}`}
+            <button
+              onClick={handleDownloadPdf}
+              disabled={isDownloading}
+              className={`${ACTION_BUTTON_BASE} ${DOWNLOAD_BUTTON} disabled:opacity-50 disabled:cursor-not-allowed`}
             >
-              {t.downloadPdf}
-            </a>
+              {isDownloading ? (language === "hu" ? "Letöltés..." : "Downloading...") : t.downloadPdf}
+            </button>
           </div>
         </header>
 
