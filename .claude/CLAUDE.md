@@ -8,18 +8,20 @@ This is a personal portfolio website (kistasi.hu) built with Next.js 15, React 1
 
 ## Development Commands
 
+This project uses **yarn** as the package manager.
+
 ```bash
 # Start development server with Turbopack
-npm run dev
+yarn dev
 
 # Build for production
-npm run build
+yarn build
 
 # Start production server
-npm start
+yarn start
 
 # Run ESLint
-npm run lint
+yarn lint
 ```
 
 ## Technology Stack
