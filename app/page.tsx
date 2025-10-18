@@ -34,6 +34,7 @@ const sections: Section[] = [
   {
     title: "Fun",
     links: [
+      { title: "Watchlog", url: "/watchlog", description: "Films I've watched" },
       { title: "Letterboxd", url: "https://letterboxd.com/kistasi/", description: "Movie tracking" },
       { title: "Trakt", url: "https://trakt.tv/users/kistasi", description: "TV show tracking" }
     ]
