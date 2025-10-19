@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Personal portfolio website for kistasi (Márton Tasnádi) built with Next.js 15, React 19, TypeScript, and Tailwind CSS 4. Features a homepage with links and a bilingual resume page with PDF export.
+Personal portfolio website for kistasi (Márton Tasnádi) built with Next.js 15, React 19, TypeScript, and Tailwind CSS 4. Features a homepage with links, a bilingual resume page with PDF export, and a watchlog showcasing watched films.
 
 ## Development Commands
 
@@ -31,6 +31,7 @@ yarn lint
 - **TypeScript**: Version 5
 - **Styling**: Tailwind CSS 4 with PostCSS plugin (`@tailwindcss/postcss`)
 - **PDF Generation**: @react-pdf/renderer
+- **External APIs**: TMDB API v3 for movie data
 - **Turbopack**: Enabled by default for faster development builds
 
 ## Architecture
@@ -43,9 +44,15 @@ app/
 ├── page.tsx                # Homepage with organized link sections
 ├── resume/
 │   └── page.tsx           # Bilingual resume page (EN/HU)
+├── watchlog/
+│   ├── page.tsx           # Random watched film display
+│   └── all/
+│       └── page.tsx       # Grid view of all watched films
 ├── api/
-│   └── resume/pdf/
-│       └── route.ts       # PDF generation API endpoint
+│   ├── resume/pdf/
+│   │   └── route.ts       # PDF generation API endpoint
+│   └── watchlog/
+│       └── route.ts       # TMDB API integration for watched films
 ├── components/
 │   ├── ExperienceCard.tsx # Work experience display
 │   ├── ResumePDF.tsx      # PDF document component
@@ -54,10 +61,12 @@ app/
 ├── context/
 │   └── ThemeContext.tsx   # Theme state management
 ├── data/
-│   └── experiences.ts     # Work experience content (bilingual)
+│   ├── experiences.ts     # Work experience content (bilingual)
+│   └── watchedMovies.ts   # Array of TMDB movie IDs
 ├── types/
 │   ├── experience.ts      # TypeScript types for work experience
-│   └── language.ts        # Language types and translations
+│   ├── language.ts        # Language types and translations
+│   └── tmdb.ts            # TMDB API response types
 ├── globals.css            # Global styles with Tailwind and custom theme
 ├── sitemap.ts             # Auto-generated sitemap
 └── robots.ts              # Auto-generated robots.txt
@@ -114,6 +123,38 @@ The project uses `@/*` path alias that maps to the root directory (configured in
   - Hungarian: `tasnadi-marton-cv.pdf`
 - Font registration required for special characters (ő, ű, etc.)
 - API route at `/api/resume/pdf?lang={en|hu}`
+
+### Watchlog Feature
+
+**Overview:**
+- Personal film watchlog using TMDB API v3
+- Two views: random film display and complete grid view
+- Data stored as simple array of TMDB movie IDs in TypeScript
+
+**Architecture:**
+- **Data**: `app/data/watchedMovies.ts` - Array of TMDB IDs (`number[]`)
+- **API**: `app/api/watchlog/route.ts` - Fetches movie details from TMDB
+- **Pages**:
+  - `/watchlog` - Shows one random film with "Show me another" button
+  - `/watchlog/all` - Grid view of all films (responsive 2-5 columns)
+
+**TMDB Integration:**
+- API key stored in `.env.local` as `TMDB_API_KEY`
+- Fetches movie details (title, poster, year) from TMDB API v3
+- Caches responses for 1 hour using Next.js `revalidate`
+- Poster images served from `https://image.tmdb.org/t/p/w342/`
+
+**Features:**
+- Breadcrumb navigation (Home / Watchlog / All Films)
+- Random movie picker with client-side randomization
+- Responsive design with dark mode support
+- Links to TMDB movie pages for details
+- Friendly, personal tone ("A random film I've watched")
+
+**Adding Movies:**
+- Add TMDB movie IDs to `app/data/watchedMovies.ts`
+- Find IDs from TMDB URLs: `themoviedb.org/movie/{ID}`
+- No duplicates allowed (causes React key warnings)
 
 ### SEO Implementation
 
