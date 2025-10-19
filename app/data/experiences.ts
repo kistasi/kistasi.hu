@@ -36,7 +36,7 @@ export const workExperiences: WorkExperience[] = [
         en: "Built landing page for donation campaign (Bonjourcava)"
       }
     ],
-    technologies: ["Next.js", "NestJS", "TypeScript", "React", "Python", "Tailwind CSS"]
+    technologies: ["TypeScript", "React", "Next.js", "Vue", "NestJS", "Electron", "Tailwind CSS", "PHP", "Laravel", "Yii2", "MySQL", "Docker"]
   },
   {
     company: "Captiwate",
@@ -77,7 +77,7 @@ export const workExperiences: WorkExperience[] = [
         en: "Wrote comprehensive unit and integration tests"
       }
     ],
-    technologies: ["Laravel", "PHP", "TypeScript", "Stripe", "Slack API", "Microsoft Teams API"]
+    technologies: ["PHP", "Laravel", "MySQL", "JavaScript", "Vue", "Tailwind CSS", "Docker"]
   },
   {
     company: "Socurity",
@@ -102,7 +102,7 @@ export const workExperiences: WorkExperience[] = [
         en: "Resolved bugs and maintained codebase stability"
       }
     ],
-    technologies: ["PHP", "Laravel", "MySQL"]
+    technologies: ["PHP", "Symfony", "MySQL", "JavaScript", "Docker"]
   },
   {
     company: "The Future Fox",
@@ -143,7 +143,7 @@ export const workExperiences: WorkExperience[] = [
         en: "Migrated repositories from Bitbucket to GitHub and established pull request workflows"
       }
     ],
-    technologies: ["PHP", "Laravel", "Vue.js", "TypeScript", "Python", "MySQL", "REST API"]
+    technologies: ["PHP", "Yii2", "MySQL", "JavaScript", "TypeScript", "Vue", "Highcharts", "Mapbox", "Docker"]
   },
   {
     company: "CreatIT Solutions Ltd.",
@@ -176,7 +176,7 @@ export const workExperiences: WorkExperience[] = [
         en: "Created back office system for Bikefun bicycle retail shop using PostgreSQL"
       }
     ],
-    technologies: ["PHP", "Laravel", "PostgreSQL", "MySQL", "REST API"]
+    technologies: ["PHP", "Laravel", "MySQL", "JavaScript", "Docker"]
   },
   {
     company: "FintechX Technologies",
@@ -209,7 +209,7 @@ export const workExperiences: WorkExperience[] = [
         en: "Developed APIs for bank account information provisioning"
       }
     ],
-    technologies: ["PHP", "Python", "REST API", "Web Scraping"]
+    technologies: ["OpenBanking", "JavaScript", "Node.js", "MongoDB", "Docker"]
   },
   {
     company: "Antavo AI Loyalty Cloud",
@@ -242,7 +242,7 @@ export const workExperiences: WorkExperience[] = [
         en: "Implemented comprehensive unit tests for new and existing features"
       }
     ],
-    technologies: ["PHP", "Magento", "MySQL", "REST API"]
+    technologies: ["PHP", "Phalcon", "MongoDB", "Vue", "JavaScript", "Docker"]
   },
   {
     company: "United Platforms",
@@ -275,7 +275,7 @@ export const workExperiences: WorkExperience[] = [
         en: "Converted Figma designs into responsive web layouts using CSS and SASS"
       }
     ],
-    technologies: ["PHP", "React.js", "JavaScript", "CSS", "SASS", "Twig"]
+    technologies: ["PHP", "Kohana", "MySQL", "JavaScript", "Twig", "React"]
   },
   {
     company: "Neticle",
@@ -308,7 +308,7 @@ export const workExperiences: WorkExperience[] = [
         en: "Developed survey creator tool for dashboard and filler microservice for user-facing site"
       }
     ],
-    technologies: ["PHP", "JavaScript", "Elasticsearch", "MySQL"]
+    technologies: ["PHP", "Laravel", "MySQL", "JavaScript", "Highcharts", "Elasticsearch"]
   },
   {
     company: "Allmyles LLC",
@@ -333,6 +333,6 @@ export const workExperiences: WorkExperience[] = [
         en: "Built and maintained API dashboard"
       }
     ],
-    technologies: ["PHP", "JavaScript", "HTML", "CSS"]
+    technologies: ["Python", "Django", "JavaScript"]
   }
 ];
