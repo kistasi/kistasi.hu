@@ -79,12 +79,9 @@ export default function Home() {
           <h1 className="text-4xl font-bold text-primary dark:text-primary-dark">
             kistasi
           </h1>
-          <p className="text-primary dark:text-primary-dark opacity-70">
-            software • theatre • movie
-          </p>
-          <p className="text-primary dark:text-primary-dark opacity-60 text-sm pt-2">
-            Welcome! Here you&apos;ll find links to my work, projects, and interests.
-          </p>
+          <span className="text-primary dark:text-primary-dark opacity-70">
+            doing film, theatre and software stuff
+          </span>
         </header>
 
         <main className="space-y-8">
