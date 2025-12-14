@@ -36,7 +36,7 @@ const sections: Section[] = [
     links: [
       /*{ title: "Watchlog", url: "/watchlog", description: "Films I've watched" },*/
       { title: "Letterboxd", url: "https://letterboxd.com/kistasi/", description: "Movie tracking" },
-      { title: "Trakt", url: "https://trakt.tv/users/kistasi", description: "TV show tracking" }
+      { title: "Serializd", url: "https://www.serializd.com/user/kistasi", description: "TV show tracking" }
     ]
   }
 ];
