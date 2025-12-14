@@ -24,13 +24,13 @@ const sections: Section[] = [
       { title: "GitHub", url: "https://github.com/kistasi", description: "Code & contributions" }
     ]
   },
-  {
+  /*{
     title: "Social",
     links: [
       { title: "Mastodon", url: "https://mastodon.social/@kistasi", description: "Social updates" },
       { title: "X", url: "https://x.com/_kistasi_", description: "Microblogging" }
     ]
-  },
+  },*/
   {
     title: "Fun",
     links: [
