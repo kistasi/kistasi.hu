@@ -46,7 +46,7 @@ const jsonLd = {
   "@type": "Person",
   name: "Márton Tasnádi",
   jobTitle: "Software Developer",
-  description: "Full-stack software developer based in Budapest, Hungary",
+  description: "doing film, theatre and software stuff",
   url: "https://kistasi.hu",
   email: "marton.tasnadi@gmail.com",
   address: {
@@ -57,10 +57,8 @@ const jsonLd = {
   sameAs: [
     "https://www.linkedin.com/in/kistasi/",
     "https://github.com/kistasi",
-    "https://mastodon.social/@kistasi",
-    "https://x.com/_kistasi_",
     "https://letterboxd.com/kistasi/",
-    "https://trakt.tv/users/kistasi",
+    "https://www.serializd.com/user/kistasi",
   ],
 };
 

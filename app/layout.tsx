@@ -1,30 +1,24 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./components/Providers";
+import React from "react";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kistasi.hu"),
   title: {
-    default: "kistasi - Software Developer",
-    template: "%s | kistasi"
+    default: "kistasi.hu",
+    template: "%s | kistasi.hu"
   },
-  description: "Full-stack software developer based in Budapest, Hungary. Specializing in web development with experience in Next.js, Laravel, TypeScript, and Python.",
-  keywords: ["software developer", "web developer", "full-stack developer", "Budapest", "Márton Tasnádi", "kistasi", "TypeScript", "React", "Next.js", "Laravel", "PHP"],
+  description: "doing film, theatre and software stuff",
   authors: [{ name: "Márton Tasnádi", url: "https://kistasi.hu" }],
   creator: "Márton Tasnádi",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://kistasi.hu",
-    title: "kistasi - Software Developer",
-    description: "Full-stack software developer based in Budapest, Hungary",
+    title: "kistasi.hu",
+    description: "doing film, theatre and software stuff",
     siteName: "kistasi.hu",
-  },
-  twitter: {
-    card: "summary",
-    title: "kistasi - Software Developer",
-    description: "Full-stack software developer based in Budapest, Hungary",
-    creator: "@_kistasi_",
   },
   robots: {
     index: true,
