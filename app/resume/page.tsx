@@ -64,10 +64,10 @@ export default function ResumePage() {
     <div className="min-h-screen bg-background p-8 transition-colors duration-200">
       <div className="max-w-4xl mx-auto space-y-12">
         <header className="text-center space-y-6">
-          <h1 className="text-5xl font-bold text-primary">
+          <h1 className="text-4xl md:text-5xl font-bold text-primary">
             {t.title}
           </h1>
-          <p className="text-primary opacity-70 text-lg">
+          <p className="text-primary opacity-70 text-base md:text-lg">
             {t.subtitle}
           </p>
 

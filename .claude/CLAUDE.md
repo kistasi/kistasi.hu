@@ -33,8 +33,6 @@ app/
 ├── components/
 │   ├── ExperienceCard.tsx
 │   └── ResumePDF.tsx
-├── constants/
-│   └── design-tokens.ts   # Design system tokens
 ├── data/
 │   ├── experiences.ts     # Work experience (bilingual)
 │   └── watchedMovies.ts   # TMDB movie IDs
@@ -55,13 +53,13 @@ Path alias: `@/*` maps to root directory
 --color-surface: #2c3144
 ```
 
-**Design System (app/constants/design-tokens.ts):**
+**Design System:**
 
-Typography:
-- H1: `text-5xl font-bold text-primary`
-- H2: `text-3xl font-bold text-primary`
-- H3: `text-xl font-bold text-primary`
-- Body: `text-base text-primary`
+Typography (responsive - mobile first):
+- H1: `text-4xl md:text-5xl font-bold text-primary`
+- H2: `text-2xl md:text-3xl font-bold text-primary`
+- H3: `text-lg md:text-xl font-bold text-primary`
+- Body: `text-sm md:text-base text-primary`
 - Small: `text-sm text-primary`
 
 Spacing:
@@ -87,28 +85,25 @@ Containers:
 ### Component Structure
 
 ```typescript
-// 1. Imports
-import { typography, spacing } from "@/app/constants/design-tokens";
-
-// 2. Constants (style classes, static data)
+// 1. Constants (style classes, static data)
 const BUTTON = "px-6 py-3 border-2 border-primary transition-colors";
 
-// 3. Interfaces
+// 2. Interfaces
 interface Link {
   title: string;
   url: string;
 }
 
-// 4. Component
+// 3. Component
 export default function Component() {
-  return <main className={spacing.page}>...</main>;
+  return <main className="p-8">...</main>;
 }
 ```
 
 ### Rules
 
 - Extract repeated classes to constants
-- Use design tokens from `design-tokens.ts`
+- Follow the design system typography and spacing scales
 - Use semantic HTML (`<header>`, `<main>`, `<footer>`, `<section>`)
 - Unique keys (not array indices)
 - Client components: `"use client"` directive

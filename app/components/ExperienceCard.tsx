@@ -19,13 +19,13 @@ export default function ExperienceCard({ experience, language }: ExperienceCardP
     <div className="border-2 border-primary bg-surface p-6 space-y-6 transition-colors duration-200">
       {/* Header */}
       <div className="space-y-3">
-        <h3 className="text-3xl font-bold text-primary">
+        <h3 className="text-2xl md:text-3xl font-bold text-primary">
           {getLocalizedString(experience.position, language)}
         </h3>
-        <p className="text-xl text-primary opacity-80">
+        <p className="text-lg md:text-xl text-primary opacity-80">
           {experience.company}
         </p>
-        <div className="flex flex-col md:flex-row md:justify-between gap-1 text-base text-primary opacity-60">
+        <div className="flex flex-col md:flex-row md:justify-between gap-1 text-sm md:text-base text-primary opacity-60">
           <span>{experience.location}</span>
           <span>
             {formatDate(experience.startDate)} - {formatDate(experience.endDate)}
@@ -34,14 +34,14 @@ export default function ExperienceCard({ experience, language }: ExperienceCardP
       </div>
 
       {/* Description */}
-      <p className="text-base text-primary opacity-80">
+      <p className="text-sm md:text-base text-primary opacity-80">
         {getLocalizedString(experience.description, language)}
       </p>
 
       {/* Responsibilities */}
       <div className="space-y-3">
-        <h4 className="text-xl font-bold text-primary">{t.responsibilities}</h4>
-        <ul className="list-disc list-inside space-y-2 text-base text-primary opacity-80">
+        <h4 className="text-lg md:text-xl font-bold text-primary">{t.responsibilities}</h4>
+        <ul className="list-disc list-inside space-y-2 text-sm md:text-base text-primary opacity-80">
           {getLocalizedArray(experience.responsibilities, language).map((responsibility, index) => (
             <li key={index}>
               {responsibility}
@@ -53,7 +53,7 @@ export default function ExperienceCard({ experience, language }: ExperienceCardP
       {/* Technologies */}
       {experience.technologies && experience.technologies.length > 0 && (
         <div className="space-y-3">
-          <h4 className="text-xl font-bold text-primary">{t.technologies}</h4>
+          <h4 className="text-lg md:text-xl font-bold text-primary">{t.technologies}</h4>
           <div className="flex flex-wrap gap-3">
             {experience.technologies.map((tech, index) => (
               <span
