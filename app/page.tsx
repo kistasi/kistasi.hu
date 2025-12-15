@@ -71,18 +71,20 @@ export default function Home() {
       <div className="min-h-screen bg-background flex items-center justify-center p-8 transition-colors duration-200">
         <div className="max-w-md w-full space-y-12">
         <header className="text-center space-y-3">
-          <h1 className="text-5xl font-bold text-primary">
+          <h1 className="text-4xl md:text-5xl font-bold text-primary">
             kistasi
           </h1>
-          <p className="text-lg text-primary opacity-70 text-nowrap">
-            doing film, theatre and software stuff
-          </p>
+          <div className="flex justify-center">
+            <p className="text-base md:text-lg text-primary opacity-70 text-nowrap">
+              doing film, theatre and software stuff
+            </p>
+          </div>
         </header>
 
         <main className="space-y-12">
           {sections.map((section) => (
             <section key={section.title} className="space-y-6">
-              <h2 className="text-3xl font-bold text-primary text-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-primary text-center">
                 {section.title}
               </h2>
               <div className="space-y-4">
