@@ -74,7 +74,7 @@ export default function Home() {
           <h1 className="text-5xl font-bold text-primary">
             kistasi
           </h1>
-          <p className="text-lg text-primary opacity-70">
+          <p className="text-lg text-primary opacity-70 text-nowrap">
             doing film, theatre and software stuff
           </p>
         </header>
