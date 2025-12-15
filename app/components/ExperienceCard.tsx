@@ -25,7 +25,7 @@ export default function ExperienceCard({ experience, language }: ExperienceCardP
         <p className="text-xl text-primary opacity-80">
           {experience.company}
         </p>
-        <div className="flex justify-between text-base text-primary opacity-60">
+        <div className="flex flex-col md:flex-row md:justify-between gap-1 text-base text-primary opacity-60">
           <span>{experience.location}</span>
           <span>
             {formatDate(experience.startDate)} - {formatDate(experience.endDate)}
