@@ -1,21 +1,16 @@
 @import "tailwindcss";
 
-@variant dark (&:where(.dark, .dark *));
-
 @theme {
-  /* Light mode colors */
-  --color-primary: #2c3144;
-  --color-background: #f2f8fa;
-  --color-surface: #ffffff;
-
-  /* Dark mode colors */
-  --color-primary-dark: #ffffff;
-  --color-background-dark: #1a1d2e;
-  --color-surface-dark: #2c3144;
+  /* Color palette */
+  --color-primary: #ffffff;
+  --color-background: #1a1d2e;
+  --color-surface: #2c3144;
 }
 
 @layer base {
+  html,
   body {
     font-family: 'Courier New', Courier, 'Lucida Console', Monaco, monospace;
+    background-color: var(--color-background);
   }
 }

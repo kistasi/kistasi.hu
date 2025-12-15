@@ -1,7 +1,5 @@
 "use client";
 
-import ThemeToggle from "@/app/components/ThemeToggle";
-
 interface Link {
   title: string;
   url: string;
@@ -13,7 +11,7 @@ interface Section {
   links: Link[];
 }
 
-const LINK_BUTTON_CLASSES = "block w-full border-2 border-primary dark:border-primary-dark bg-surface dark:bg-surface-dark text-primary dark:text-primary-dark hover:bg-primary dark:hover:bg-primary-dark hover:text-surface dark:hover:text-surface-dark transition-colors duration-200 p-4 text-center group";
+const LINK_BUTTON_CLASSES = "block w-full border-2 border-primary bg-surface text-primary hover:bg-primary hover:text-surface transition-colors duration-200 p-6 text-center group";
 
 const sections: Section[] = [
   {
@@ -70,25 +68,24 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="min-h-screen bg-background dark:bg-background-dark flex items-center justify-center p-6 transition-colors duration-200">
-        <ThemeToggle />
-        <div className="max-w-md w-full space-y-8">
-        <header className="text-center space-y-2">
-          <h1 className="text-4xl font-bold text-primary dark:text-primary-dark">
+      <div className="min-h-screen bg-background flex items-center justify-center p-8 transition-colors duration-200">
+        <div className="max-w-md w-full space-y-12">
+        <header className="text-center space-y-3">
+          <h1 className="text-5xl font-bold text-primary">
             kistasi
           </h1>
-          <span className="text-primary dark:text-primary-dark opacity-70">
+          <p className="text-lg text-primary opacity-70">
             doing film, theatre and software stuff
-          </span>
+          </p>
         </header>
 
-        <main className="space-y-8">
+        <main className="space-y-12">
           {sections.map((section) => (
-            <section key={section.title} className="space-y-4">
-              <h2 className="text-xl font-bold text-primary dark:text-primary-dark text-center pb-2">
+            <section key={section.title} className="space-y-6">
+              <h2 className="text-3xl font-bold text-primary text-center">
                 {section.title}
               </h2>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {section.links.map((link) => (
                   <a
                     key={link.title}
@@ -105,12 +102,12 @@ export default function Home() {
             </section>
           ))}
 
-          <section className="space-y-4">
-            <h2 className="text-xl font-bold text-primary dark:text-primary-dark text-center pb-2">
+          <section className="space-y-6">
+            <h2 className="text-3xl font-bold text-primary text-center">
               Contact
             </h2>
-            <div className="text-center text-primary dark:text-primary-dark">
-              <p className="text-sm opacity-70 mb-2">Feel free to reach out</p>
+            <div className="text-center text-primary space-y-3">
+              <p className="text-base opacity-70">Feel free to reach out</p>
               <a
                 href="mailto:marton.tasnadi@gmail.com"
                 className="text-lg hover:opacity-70 transition-opacity duration-200"
@@ -121,7 +118,7 @@ export default function Home() {
           </section>
         </main>
 
-        <footer className="text-center text-sm text-primary dark:text-primary-dark opacity-50 pt-4">
+        <footer className="text-center text-sm text-primary opacity-50 pt-6">
           © {new Date().getFullYear()} kistasi
         </footer>
       </div>

@@ -3,17 +3,16 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import ExperienceCard from "@/app/components/ExperienceCard";
-import ThemeToggle from "@/app/components/ThemeToggle";
 import { workExperiences } from "@/app/data/experiences";
 import { Language, translations } from "@/app/types/language";
 
-const LANG_BUTTON_BASE = "px-4 py-2 border-2 border-primary dark:border-primary-dark transition-colors duration-200 font-bold cursor-pointer";
-const LANG_BUTTON_ACTIVE = "bg-primary dark:bg-primary-dark text-surface dark:text-surface-dark";
-const LANG_BUTTON_INACTIVE = "bg-surface dark:bg-surface-dark text-primary dark:text-primary-dark hover:bg-primary dark:hover:bg-primary-dark hover:text-surface dark:hover:text-surface-dark";
+const LANG_BUTTON_BASE = "px-6 py-3 border-2 border-primary transition-colors duration-200 font-bold cursor-pointer";
+const LANG_BUTTON_ACTIVE = "bg-primary text-surface";
+const LANG_BUTTON_INACTIVE = "bg-surface text-primary hover:bg-primary hover:text-surface";
 
-const ACTION_BUTTON_BASE = "inline-block px-6 py-2 border-2 border-primary dark:border-primary-dark transition-colors duration-200 font-bold";
-const BACK_BUTTON = "bg-surface dark:bg-surface-dark text-primary dark:text-primary-dark hover:bg-primary dark:hover:bg-primary-dark hover:text-surface dark:hover:text-surface-dark";
-const DOWNLOAD_BUTTON = "bg-primary dark:bg-primary-dark text-surface dark:text-surface-dark hover:bg-surface dark:hover:bg-surface-dark hover:text-primary dark:hover:text-primary-dark";
+const ACTION_BUTTON_BASE = "inline-block px-6 py-3 border-2 border-primary transition-colors duration-200 font-bold";
+const BACK_BUTTON = "bg-surface text-primary hover:bg-primary hover:text-surface";
+const DOWNLOAD_BUTTON = "bg-primary text-surface hover:bg-surface hover:text-primary";
 
 export default function ResumePage() {
   const [language, setLanguage] = useState<Language>("en");
@@ -62,18 +61,17 @@ export default function ResumePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background dark:bg-background-dark py-12 px-6 transition-colors duration-200">
-      <ThemeToggle />
-      <div className="max-w-4xl mx-auto space-y-8">
-        <header className="text-center space-y-4">
-          <h1 className="text-5xl font-bold text-primary dark:text-primary-dark">
+    <div className="min-h-screen bg-background p-8 transition-colors duration-200">
+      <div className="max-w-4xl mx-auto space-y-12">
+        <header className="text-center space-y-6">
+          <h1 className="text-5xl font-bold text-primary">
             {t.title}
           </h1>
-          <p className="text-primary dark:text-primary-dark opacity-70 text-lg">
+          <p className="text-primary opacity-70 text-lg">
             {t.subtitle}
           </p>
 
-          <div className="flex justify-center gap-2">
+          <div className="flex justify-center gap-4">
             <button
               onClick={() => setLanguage("en")}
               className={`${LANG_BUTTON_BASE} ${language === "en" ? LANG_BUTTON_ACTIVE : LANG_BUTTON_INACTIVE}`}
@@ -108,7 +106,7 @@ export default function ResumePage() {
           ))}
         </main>
 
-        <footer className="text-center text-sm text-primary dark:text-primary-dark opacity-50 pt-8">
+        <footer className="text-center text-sm text-primary opacity-50 pt-6">
           {t.footer.replace("{year}", new Date().getFullYear().toString())}
         </footer>
       </div>

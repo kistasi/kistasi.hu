@@ -7,13 +7,13 @@ import { WatchlogEntry } from "@/app/types/tmdb";
 
 const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w342";
 
-const CARD_BASE = "bg-surface dark:bg-surface-dark rounded-lg overflow-hidden shadow-md max-w-xs mx-auto";
-const FILM_TITLE = "text-3xl font-bold text-primary dark:text-primary-dark";
-const FILM_YEAR = "text-gray-600 dark:text-gray-400 text-xl";
-const MESSAGE_TEXT = "text-center text-gray-600 dark:text-gray-400 py-8";
-const BUTTON_BASE = "px-6 py-3 bg-primary dark:bg-primary-dark text-surface dark:text-surface-dark rounded-lg font-semibold hover:opacity-90 transition-opacity";
-const LINK_BUTTON = "text-primary dark:text-primary-dark underline hover:opacity-80 transition-opacity";
-const BREADCRUMB_LINK = "text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-dark transition-colors";
+const CARD_BASE = "bg-surface rounded-lg overflow-hidden shadow-md max-w-xs mx-auto";
+const FILM_TITLE = "text-3xl font-bold text-primary";
+const FILM_YEAR = "text-gray-400 text-lg";
+const MESSAGE_TEXT = "text-center text-gray-400 py-8";
+const BUTTON_BASE = "px-6 py-3 bg-primary text-surface rounded-lg font-semibold hover:opacity-90 transition-opacity";
+const LINK_BUTTON = "text-lg text-primary underline hover:opacity-80 transition-opacity";
+const BREADCRUMB_LINK = "text-base text-gray-400 hover:text-primary transition-colors";
 
 export default function WatchlogPage() {
   const [entries, setEntries] = useState<WatchlogEntry[]>([]);
@@ -53,19 +53,19 @@ export default function WatchlogPage() {
   };
 
   const renderHeader = () => (
-    <header className="mb-8">
-      <nav className="mb-4">
+    <header className="mb-12">
+      <nav className="mb-6 text-base">
         <Link href="/" className={BREADCRUMB_LINK}>
           Home
         </Link>
         <span className="mx-2 text-gray-400">/</span>
-        <span className="text-primary dark:text-primary-dark">Watchlog</span>
+        <span className="text-primary">Watchlog</span>
       </nav>
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-primary dark:text-primary-dark">
+      <div className="text-center space-y-3">
+        <h1 className="text-5xl font-bold text-primary">
           Watchlog
         </h1>
-        <p className="text-gray-600 dark:text-gray-400 mt-2">
+        <p className="text-lg text-gray-400">
           A random film I&apos;ve watched
         </p>
       </div>
@@ -74,7 +74,7 @@ export default function WatchlogPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-background dark:bg-background-dark p-8">
+      <main className="min-h-screen bg-background p-8">
         <div className="max-w-7xl mx-auto">
           {renderHeader()}
           <p className={MESSAGE_TEXT}>Loading...</p>
@@ -85,7 +85,7 @@ export default function WatchlogPage() {
 
   if (error) {
     return (
-      <main className="min-h-screen bg-background dark:bg-background-dark p-8">
+      <main className="min-h-screen bg-background p-8">
         <div className="max-w-7xl mx-auto">
           {renderHeader()}
           <p className={MESSAGE_TEXT}>Oops! Couldn&apos;t load the films right now.</p>
@@ -96,7 +96,7 @@ export default function WatchlogPage() {
 
   if (entries.length === 0 || !currentEntry) {
     return (
-      <main className="min-h-screen bg-background dark:bg-background-dark p-8">
+      <main className="min-h-screen bg-background p-8">
         <div className="max-w-7xl mx-auto">
           {renderHeader()}
           <p className={MESSAGE_TEXT}>No films here yet!</p>
@@ -114,11 +114,11 @@ export default function WatchlogPage() {
     : null;
 
   return (
-    <main className="min-h-screen bg-background dark:bg-background-dark p-8">
+    <main className="min-h-screen bg-background p-8">
       <div className="max-w-7xl mx-auto">
         {renderHeader()}
 
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-6">
           <article className={CARD_BASE}>
             {posterUrl && (
               <Image

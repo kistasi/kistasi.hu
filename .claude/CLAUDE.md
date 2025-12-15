@@ -1,241 +1,143 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Project guidance for Claude Code when working with this codebase.
 
-## Project Overview
-
-Personal portfolio website for kistasi (Márton Tasnádi) built with Next.js 15, React 19, TypeScript, and Tailwind CSS 4. Features a homepage with links, a bilingual resume page with PDF export, and a watchlog showcasing watched films.
-
-## Development Commands
-
-This project uses **yarn** as the package manager.
+## Commands
 
 ```bash
-# Start development server with Turbopack
-yarn dev
-
-# Build for production
-yarn build
-
-# Start production server
-yarn start
-
-# Run ESLint
-yarn lint
+yarn dev    # Development server (Turbopack)
+yarn build  # Production build
+yarn lint   # ESLint
 ```
 
-## Technology Stack
+## Tech Stack
 
-- **Framework**: Next.js 15.3.1 with App Router
-- **React**: Version 19.0.0
-- **TypeScript**: Version 5
-- **Styling**: Tailwind CSS 4 with PostCSS plugin (`@tailwindcss/postcss`)
-- **PDF Generation**: @react-pdf/renderer
-- **External APIs**: TMDB API v3 for movie data
-- **Turbopack**: Enabled by default for faster development builds
+- Next.js 15 (App Router) + React 19 + TypeScript 5
+- Tailwind CSS 4 (`@tailwindcss/postcss`)
+- @react-pdf/renderer (PDF generation)
+- TMDB API v3 (watchlog feature)
 
-## Architecture
-
-### Project Structure
+## Project Structure
 
 ```
 app/
-├── layout.tsx              # Root layout with metadata and theme provider
-├── page.tsx                # Homepage with organized link sections
-├── resume/
-│   └── page.tsx           # Bilingual resume page (EN/HU)
+├── layout.tsx              # Root layout, metadata
+├── page.tsx                # Homepage
+├── resume/page.tsx         # Bilingual resume (EN/HU)
 ├── watchlog/
-│   ├── page.tsx           # Random watched film display
-│   └── all/
-│       └── page.tsx       # Grid view of all watched films
+│   ├── page.tsx           # Random film display
+│   └── all/page.tsx       # Film grid
 ├── api/
-│   ├── resume/pdf/
-│   │   └── route.ts       # PDF generation API endpoint
-│   └── watchlog/
-│       └── route.ts       # TMDB API integration for watched films
+│   ├── resume/pdf/route.ts
+│   └── watchlog/route.ts
 ├── components/
-│   ├── ExperienceCard.tsx # Work experience display
-│   ├── ResumePDF.tsx      # PDF document component
-│   ├── ThemeToggle.tsx    # Dark mode toggle
-│   └── Providers.tsx      # Client-side theme provider wrapper
-├── context/
-│   └── ThemeContext.tsx   # Theme state management
+│   ├── ExperienceCard.tsx
+│   └── ResumePDF.tsx
+├── constants/
+│   └── design-tokens.ts   # Design system tokens
 ├── data/
-│   ├── experiences.ts     # Work experience content (bilingual)
-│   └── watchedMovies.ts   # Array of TMDB movie IDs
-├── types/
-│   ├── experience.ts      # TypeScript types for work experience
-│   ├── language.ts        # Language types and translations
-│   └── tmdb.ts            # TMDB API response types
-├── globals.css            # Global styles with Tailwind and custom theme
-├── sitemap.ts             # Auto-generated sitemap
-└── robots.ts              # Auto-generated robots.txt
+│   ├── experiences.ts     # Work experience (bilingual)
+│   └── watchedMovies.ts   # TMDB movie IDs
+└── types/
+    ├── experience.ts
+    ├── language.ts
+    └── tmdb.ts
 ```
 
-### Path Aliases
+Path alias: `@/*` maps to root directory
 
-The project uses `@/*` path alias that maps to the root directory (configured in tsconfig.json).
+## Styling System
 
-### Styling System
-
-**Tailwind CSS 4 Configuration:**
-- Custom theme colors defined in `globals.css` using `@theme` directive
-- Dark mode support via custom variant: `@variant dark (&:where(.dark, .dark *))`
-- Semantic color tokens: `primary`, `background`, `surface` (with dark variants)
-- Extract repeated classes to constants for maintainability
-
-**Theme Colors:**
+**Color Tokens (globals.css):**
 ```css
---color-primary: #2c3144
---color-background: #f2f8fa
---color-surface: #ffffff
---color-primary-dark: #ffffff
---color-background-dark: #1a1d2e
---color-surface-dark: #2c3144
+--color-primary: #ffffff
+--color-background: #1a1d2e
+--color-surface: #2c3144
 ```
 
-### Dark Mode
+**Design System (app/constants/design-tokens.ts):**
 
-- Managed via React Context (`ThemeContext`)
-- Persists to localStorage
-- Detects system preference on first load
-- Applied via `.dark` class on `<html>`
+Typography:
+- H1: `text-5xl font-bold text-primary`
+- H2: `text-3xl font-bold text-primary`
+- H3: `text-xl font-bold text-primary`
+- Body: `text-base text-primary`
+- Small: `text-sm text-primary`
 
-### Internationalization
+Spacing:
+- Page: `p-8`
+- Major sections: `space-y-12`
+- Sections: `space-y-6`
+- Tight: `space-y-3`
+- Card: `p-6`
+- Button: `px-6 py-3`
+- Gap: `gap-4` (standard), `gap-6` (grid)
 
-**Bilingual Support (English & Hungarian):**
-- Default language: English
-- Language switching via buttons on resume page
-- Name order follows cultural conventions:
-  - English: "Márton Tasnádi"
-  - Hungarian: "Tasnádi Márton"
-- Job title translations:
-  - English: "Software Developer"
-  - Hungarian: "Szoftverfejlesztő"
-- All translations stored in `app/types/language.ts`
-- Work experience content uses `LocalizedContent` interface
+Containers:
+- `max-w-md mx-auto` (homepage)
+- `max-w-4xl mx-auto` (resume)
+- `max-w-7xl mx-auto` (watchlog)
 
-### PDF Generation
+**iOS Safari:**
+- `theme-color` meta set to `#1a1d2e`
+- `viewport-fit=cover` for notch handling
 
-- Uses `@react-pdf/renderer` with Roboto font (supports Hungarian characters)
-- Filename format based on language:
-  - English: `marton-tasnadi-cv.pdf`
-  - Hungarian: `tasnadi-marton-cv.pdf`
-- Font registration required for special characters (ő, ű, etc.)
-- API route at `/api/resume/pdf?lang={en|hu}`
+## Code Patterns
 
-### Watchlog Feature
-
-**Overview:**
-- Personal film watchlog using TMDB API v3
-- Two views: random film display and complete grid view
-- Data stored as simple array of TMDB movie IDs in TypeScript
-
-**Architecture:**
-- **Data**: `app/data/watchedMovies.ts` - Array of TMDB IDs (`number[]`)
-- **API**: `app/api/watchlog/route.ts` - Fetches movie details from TMDB
-- **Pages**:
-  - `/watchlog` - Shows one random film with "Show me another" button
-  - `/watchlog/all` - Grid view of all films (responsive 2-5 columns)
-
-**TMDB Integration:**
-- API key stored in `.env.local` as `TMDB_API_KEY`
-- Fetches movie details (title, poster, year) from TMDB API v3
-- Caches responses for 1 hour using Next.js `revalidate`
-- Poster images served from `https://image.tmdb.org/t/p/w342/`
-
-**Features:**
-- Breadcrumb navigation (Home / Watchlog / All Films)
-- Random movie picker with client-side randomization
-- Responsive design with dark mode support
-- Links to TMDB movie pages for details
-- Friendly, personal tone ("A random film I've watched")
-
-**Adding Movies:**
-- Add TMDB movie IDs to `app/data/watchedMovies.ts`
-- Find IDs from TMDB URLs: `themoviedb.org/movie/{ID}`
-- No duplicates allowed (causes React key warnings)
-
-### SEO Implementation
-
-**Metadata (app/layout.tsx):**
-- Site title: "kistasi - Software Developer"
-- Comprehensive meta tags (description, keywords, author)
-- Open Graph tags for social sharing
-- Twitter Card support
-- Robots directives (index, follow)
-- Canonical URLs
-
-**Structured Data:**
-- JSON-LD Person schema on homepage
-- Links all social profiles via `sameAs`
-- Includes job title, location, email
-
-**Generated Files:**
-- `sitemap.xml` - Auto-generated sitemap
-- `robots.txt` - Auto-generated robots file
-- No tracking/analytics (privacy-focused)
-
-### TypeScript Configuration
-
-- Target: ES2017
-- Strict mode enabled
-- Module resolution: bundler
-- JSX: preserve (handled by Next.js)
-
-## Code Style & Best Practices
-
-### Component Organization
-
-1. **Extract CSS classes to constants** for reusability
-2. **Use semantic HTML** (`<header>`, `<main>`, `<footer>`, `<section>`)
-3. **Use unique keys** (e.g., `key={item.id}`) instead of array indices
-4. **Define TypeScript interfaces** for data structures
-5. **Move static data** to module-level constants
-
-### Example Pattern
+### Component Structure
 
 ```typescript
-// Constants at top
-const BUTTON_BASE = "px-4 py-2 border-2 transition-colors";
-const BUTTON_ACTIVE = "bg-primary text-surface";
+// 1. Imports
+import { typography, spacing } from "@/app/constants/design-tokens";
 
-// Interfaces
+// 2. Constants (style classes, static data)
+const BUTTON = "px-6 py-3 border-2 border-primary transition-colors";
+
+// 3. Interfaces
 interface Link {
   title: string;
   url: string;
-  description: string;
 }
 
-// Static data
-const links: Link[] = [
-  { title: "Example", url: "/", description: "..." }
-];
-
-// Component
+// 4. Component
 export default function Component() {
-  return (
-    <main>
-      {links.map((link) => (
-        <a key={link.title} className={BUTTON_BASE}>
-          {link.title}
-        </a>
-      ))}
-    </main>
-  );
+  return <main className={spacing.page}>...</main>;
 }
 ```
 
-### Client Components
+### Rules
 
-- Mark with `"use client"` directive
-- Cannot export `metadata` (use `useEffect` to update document.title)
-- Use React hooks (useState, useEffect, useContext)
+- Extract repeated classes to constants
+- Use design tokens from `design-tokens.ts`
+- Use semantic HTML (`<header>`, `<main>`, `<footer>`, `<section>`)
+- Unique keys (not array indices)
+- Client components: `"use client"` directive
+- NO emojis unless explicitly requested
+
+## Bilingual Support
+
+- English/Hungarian via `app/types/language.ts`
+- Name order: "Márton Tasnádi" (EN), "Tasnádi Márton" (HU)
+- Job title: "Software Developer" (EN), "Szoftverfejlesztő" (HU)
+- Work experience uses `LocalizedContent` interface
+
+## PDF Generation
+
+- Uses `@react-pdf/renderer` with Roboto font
+- Filenames: `marton-tasnadi-cv.pdf` (EN), `tasnadi-marton-cv.pdf` (HU)
+- Route: `/api/resume/pdf?lang={en|hu}`
+- Font registration required for Hungarian chars (ő, ű, etc.)
+
+## Watchlog
+
+- Data: Array of TMDB movie IDs in `app/data/watchedMovies.ts`
+- API key: `.env.local` as `TMDB_API_KEY`
+- Cache: 1 hour via Next.js `revalidate`
+- Find IDs: `themoviedb.org/movie/{ID}`
+- NO duplicates (causes React key warnings)
 
 ## Content Guidelines
 
-- **Branding**: Use "kistasi" in titles/headers, not "Márton Tasnádi"
-- **No emojis** unless explicitly requested
-- **Privacy-first**: No analytics or tracking
-- **Bilingual**: Always provide both EN and HU versions
-- **Professional tone**: Clean, minimal, focused on work
+- Branding: Use "kistasi" in headers (not "Márton Tasnádi")
+- Bilingual: Always provide EN and HU versions
+- Privacy: No analytics/tracking

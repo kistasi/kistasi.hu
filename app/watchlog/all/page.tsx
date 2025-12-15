@@ -7,12 +7,12 @@ import { WatchlogEntry } from "@/app/types/tmdb";
 
 const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w342";
 
-const CARD_BASE = "bg-surface dark:bg-surface-dark rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow";
-const FILM_TITLE = "text-xl font-bold text-primary dark:text-primary-dark";
-const FILM_YEAR = "text-gray-600 dark:text-gray-400";
-const MESSAGE_TEXT = "text-center text-gray-600 dark:text-gray-400 py-8";
-const GRID_LAYOUT = "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4";
-const BREADCRUMB_LINK = "text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-dark transition-colors";
+const CARD_BASE = "bg-surface rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow";
+const FILM_TITLE = "text-xl font-bold text-primary";
+const FILM_YEAR = "text-base text-gray-400";
+const MESSAGE_TEXT = "text-center text-gray-400 py-8";
+const GRID_LAYOUT = "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6";
+const BREADCRUMB_LINK = "text-base text-gray-400 hover:text-primary transition-colors";
 
 export default function WatchlogAllPage() {
   const [entries, setEntries] = useState<WatchlogEntry[]>([]);
@@ -39,8 +39,8 @@ export default function WatchlogAllPage() {
   }, []);
 
   const renderHeader = () => (
-    <header className="mb-8">
-      <nav className="mb-4">
+    <header className="mb-12">
+      <nav className="mb-6 text-base">
         <Link href="/" className={BREADCRUMB_LINK}>
           Home
         </Link>
@@ -49,20 +49,22 @@ export default function WatchlogAllPage() {
           Watchlog
         </Link>
         <span className="mx-2 text-gray-400">/</span>
-        <span className="text-primary dark:text-primary-dark">All Films</span>
+        <span className="text-primary">All Films</span>
       </nav>
-      <h1 className="text-4xl font-bold text-primary dark:text-primary-dark">
-        All Films
-      </h1>
-      <p className="text-gray-600 dark:text-gray-400 mt-2">
-        {entries.length} {entries.length === 1 ? 'film' : 'films'} I&apos;ve watched
-      </p>
+      <div className="space-y-3">
+        <h1 className="text-5xl font-bold text-primary">
+          All Films
+        </h1>
+        <p className="text-lg text-gray-400">
+          {entries.length} {entries.length === 1 ? 'film' : 'films'} I&apos;ve watched
+        </p>
+      </div>
     </header>
   );
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-background dark:bg-background-dark p-8">
+      <main className="min-h-screen bg-background p-8">
         <div className="max-w-7xl mx-auto">
           {renderHeader()}
           <p className={MESSAGE_TEXT}>Loading...</p>
@@ -73,7 +75,7 @@ export default function WatchlogAllPage() {
 
   if (error) {
     return (
-      <main className="min-h-screen bg-background dark:bg-background-dark p-8">
+      <main className="min-h-screen bg-background p-8">
         <div className="max-w-7xl mx-auto">
           {renderHeader()}
           <p className={MESSAGE_TEXT}>Oops! Couldn&apos;t load the films right now.</p>
@@ -84,7 +86,7 @@ export default function WatchlogAllPage() {
 
   if (entries.length === 0) {
     return (
-      <main className="min-h-screen bg-background dark:bg-background-dark p-8">
+      <main className="min-h-screen bg-background p-8">
         <div className="max-w-7xl mx-auto">
           {renderHeader()}
           <p className={MESSAGE_TEXT}>No films here yet!</p>
@@ -94,7 +96,7 @@ export default function WatchlogAllPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background dark:bg-background-dark p-8">
+    <main className="min-h-screen bg-background p-8">
       <div className="max-w-7xl mx-auto">
         {renderHeader()}
 
@@ -119,7 +121,7 @@ export default function WatchlogAllPage() {
                     className="w-full h-auto aspect-[2/3] object-cover"
                   />
                 )}
-                <div className="p-3">
+                <div className="p-6">
                   <h2 className={FILM_TITLE}>
                     <a
                       href={`https://www.themoviedb.org/movie/${entry.tmdbId}`}

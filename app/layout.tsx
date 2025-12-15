@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Providers } from "./components/Providers";
 import React from "react";
 
 export const metadata: Metadata = {
@@ -31,6 +30,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://kistasi.hu",
   },
+  other: {
+    "theme-color": "#1a1d2e",
+  },
 };
 
 export default function RootLayout({
@@ -40,8 +42,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+      </head>
       <body>
-        <Providers>{children}</Providers>
+        {children}
       </body>
     </html>
   );
