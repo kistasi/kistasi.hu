@@ -36,7 +36,7 @@ const sections: Section[] = [
     ],
   },
   {
-    title: "Fun",
+    title: "Culture",
     links: [
       {
         title: "Letterboxd",
