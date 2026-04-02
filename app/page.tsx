@@ -41,7 +41,7 @@ const sections: Section[] = [
       {
         title: "Letterboxd",
         url: "https://letterboxd.com/kistasi/",
-        description: "Movie tracking",
+        description: "Film tracking",
       },
       {
         title: "Serializd",
