@@ -16,6 +16,10 @@ export const workExperiences: WorkExperience[] = [
     },
     responsibilities: [
       {
+        hu: 'Vue/Nuxt alapú adminisztrációs és adatmenedzsment alkalmazás fejlesztése egy amerikai egészségbiztosító számára.',
+        en: 'Vue/Nuxt-based administrative data management application development for a US health insurance company.'
+      },
+      {
         hu: "Next.js alkalmazás fejlesztése és karbantartása a Digital Public Goods Alliance (UN) számára",
         en: "Developed and maintained Next.js application for Digital Public Goods Alliance (UN)"
       },
