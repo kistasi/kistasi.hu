@@ -12,7 +12,7 @@ const LANG_BUTTON_INACTIVE = "bg-surface text-primary hover:bg-primary hover:tex
 
 const ACTION_BUTTON_BASE = "inline-block px-6 py-3 border-2 border-primary transition-colors duration-200 font-bold";
 const BACK_BUTTON = "bg-surface text-primary hover:bg-primary hover:text-surface";
-const DOWNLOAD_BUTTON = "bg-primary text-surface hover:bg-surface hover:text-primary";
+const DOWNLOAD_BUTTON = "bg-primary text-surface cursor-pointer hover:bg-surface hover:text-primary";
 
 export default function ResumePage() {
   const [language, setLanguage] = useState<Language>("en");
