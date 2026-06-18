@@ -9,11 +9,11 @@ Bump every outdated dependency in `package.json` to its latest published version
 
 ## Steps
 
-1. **Check what's outdated.** Run `yarn outdated`. This exits non-zero when there are outdated packages — that is expected, not a failure. Parse the table to get the list of package names that have a newer version available. If nothing is outdated, stop and tell the user there is nothing to update.
+1. **Check what's outdated.** Run `yarn outdated`. This exits non-zero when there are outdated packages — that is expected, not a failure. Parse the table to get each outdated package name together with the exact version in its **Latest** column. If nothing is outdated, stop and tell the user there is nothing to update.
 
-2. **Set each outdated package to `latest` in `package.json`.** For every package listed by `yarn outdated`, edit its version string in `package.json` (in both `dependencies` and `devDependencies` as applicable) to `"latest"`. Only touch packages that actually appeared in the `yarn outdated` output — leave everything else unchanged.
+2. **Pin each outdated package to its `Latest` version in `package.json`.** For every package listed by `yarn outdated`, edit its version string in `package.json` (in both `dependencies` and `devDependencies` as applicable) to the exact version number shown in that package's **Latest** column — not the string `"latest"`. Only touch packages that actually appeared in the `yarn outdated` output — leave everything else unchanged. Keep the existing version-prefix style of this repo (e.g. if versions are pinned exactly with no `^`, write the bare version number).
 
-3. **Apply the changes.** Run `yarn`. This resolves `latest` to concrete versions and updates `yarn.lock`. After it completes, the `"latest"` strings in `package.json` will have been pinned back to real version numbers by yarn — that is fine and expected.
+3. **Apply the changes.** Run `yarn` to update `yarn.lock` to match the new versions in `package.json`.
 
 4. **Verify.** Run `yarn build` and `yarn lint`. Both must succeed. If either fails:
    - Read the error output and try to fix it (e.g. a breaking change in an upgraded package).
