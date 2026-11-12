@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      dependencies:
+        patterns: ["*"]
+    ignore:
+      # typescript-eslint peer range is ">=4.8.4 <6.1.0".
+      # Remove once typescript-eslint supports newer TypeScript.
+      - dependency-name: typescript
+        versions: [">=6.1.0"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
