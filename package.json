@@ -26,5 +26,6 @@
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.1"
-  }
+  },
+  "packageManager": "yarn@4.18.1"
 }

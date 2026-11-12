@@ -9,11 +9,13 @@ Bump every outdated dependency in `package.json` to its latest published version
 
 ## Steps
 
-1. **Check what's outdated.** Run `yarn outdated`. This exits non-zero when there are outdated packages — that is expected, not a failure. Parse the table to get each outdated package name together with the exact version in its **Latest** column. If nothing is outdated, stop and tell the user there is nothing to update.
+1. **Check what's outdated.** This project uses Yarn 4, which has no `yarn outdated` command. Instead, fetch the latest published version of every package in `dependencies` and `devDependencies` with a single call:
+   `yarn npm info <pkg1> <pkg2> ... --fields name,version --json`
+   This prints one JSON object per line (`{"name":"next","version":"16.4.6"}`). Compare each `version` with the one in `package.json`; a package is outdated when they differ. If nothing is outdated, stop and tell the user there is nothing to update.
 
-2. **Pin each outdated package to its `Latest` version in `package.json`.** For every package listed by `yarn outdated`, edit its version string in `package.json` (in both `dependencies` and `devDependencies` as applicable) to the exact version number shown in that package's **Latest** column — not the string `"latest"`. Only touch packages that actually appeared in the `yarn outdated` output — leave everything else unchanged. Keep the existing version-prefix style of this repo (e.g. if versions are pinned exactly with no `^`, write the bare version number).
+2. **Pin each outdated package to its `Latest` version in `package.json`.** For every outdated package, edit its version string in `package.json` (in both `dependencies` and `devDependencies` as applicable) to the exact latest version number — not the string `"latest"`. Only touch packages that are actually outdated — leave everything else unchanged. Keep the existing version-prefix style of this repo (e.g. if versions are pinned exactly with no `^`, write the bare version number).
 
-3. **Apply the changes.** Run `yarn` to update `yarn.lock` to match the new versions in `package.json`.
+3. **Apply the changes.** Run `yarn install` to update `yarn.lock` to match the new versions in `package.json`.
 
 4. **Verify.** Run `yarn build` and `yarn lint`. Both must succeed. If either fails:
    - Read the error output and try to fix it (e.g. a breaking change in an upgraded package).
@@ -25,5 +27,5 @@ Bump every outdated dependency in `package.json` to its latest published version
 ## Notes
 
 - Run the commands from the project root.
-- `yarn outdated` returning a non-zero exit code is normal when updates exist; do not treat it as an error.
+- Peer-dependency warnings (YN0060/YN0086) during `yarn install` are informational; only act on them if the build or lint fails.
 - Keep the user informed of which packages were bumped and to what versions.
