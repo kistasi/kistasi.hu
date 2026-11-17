@@ -1,20 +1,60 @@
+import path from "node:path";
 import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
-import { WorkExperience, getLocalizedString, getLocalizedArray } from "@/app/types/experience";
+import {
+  WorkExperience,
+  formatDateRange,
+  getLocalizedString,
+  getLocalizedArray,
+} from "@/app/types/experience";
 import { Language, translations } from "@/app/types/language";
 
-// Register a font that supports Hungarian characters
+// Courier Prime (SIL OFL 1.1) is bundled in the repo: a Courier-style monospace that
+// matches the site's Courier New look and covers Hungarian characters (ő, ű, …).
+// Fonts are read from disk, so PDF generation never hits the network.
+const fontDir = path.join(process.cwd(), "assets", "fonts");
 Font.register({
-  family: "Roboto",
+  family: "CourierPrime",
   fonts: [
-    {
-      src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
-    },
-    {
-      src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-bold-webfont.ttf",
-      fontWeight: "bold",
-    },
+    { src: path.join(fontDir, "CourierPrime-Regular.ttf") },
+    { src: path.join(fontDir, "CourierPrime-Bold.ttf"), fontWeight: "bold" },
   ],
 });
+// No automatic hyphenation: it is wrong for Hungarian and looks odd in monospace.
+Font.registerHyphenationCallback((word) => [word]);
+
+// Print-friendly palette: solid ink on white (no opacity, no dark fills).
+const colors = {
+  text: "#2c3144",
+  textSecondary: "#565a69",
+  textMuted: "#80838f",
+  border: "#2c3144",
+  tagBg: "#f4f5f8",
+  page: "#ffffff",
+};
+
+const fontSize = {
+  name: 22,
+  title: 13,
+  sectionHeading: 13,
+  position: 13,
+  company: 11,
+  cardHeading: 10.5,
+  body: 9.5,
+  meta: 9,
+  tag: 8.5,
+  footer: 8,
+};
+
+const space = {
+  xs: 2,
+  sm: 4,
+  md: 8,
+  lg: 12,
+  xl: 16,
+  xxl: 24,
+};
+
+const lineHeight = 1.4;
 
 interface ResumePDFProps {
   experiences: WorkExperience[];
@@ -23,188 +63,218 @@ interface ResumePDFProps {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 40,
-    backgroundColor: "#ffffff",
-    fontFamily: "Roboto",
-  },
-  header: {
-    marginBottom: 30,
-    paddingBottom: 20,
+    paddingTop: 36,
+    paddingHorizontal: 36,
+    paddingBottom: 56,
+    backgroundColor: colors.page,
+    fontFamily: "CourierPrime",
+    color: colors.text,
   },
   name: {
-    fontSize: 36,
+    fontSize: fontSize.name,
     fontWeight: "bold",
-    marginBottom: 8,
-    color: "#2c3144",
+    color: colors.text,
   },
   title: {
-    fontSize: 16,
+    marginTop: space.sm,
+    fontSize: fontSize.title,
     fontWeight: "bold",
-    marginBottom: 12,
-    color: "#2c3144",
-    opacity: 0.8,
+    color: colors.textSecondary,
   },
-  contactInfo: {
+  contactRow: {
+    marginTop: space.md,
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 12,
-    marginBottom: 8,
+    columnGap: space.lg,
+    rowGap: space.xs,
   },
   contactItem: {
-    fontSize: 10,
-    color: "#2c3144",
-    opacity: 0.7,
+    fontSize: fontSize.body,
+    color: colors.textSecondary,
   },
-  subtitle: {
-    fontSize: 14,
-    color: "#2c3144",
-    opacity: 0.7,
-    marginTop: 20,
-    marginBottom: 5,
+  sectionHeading: {
+    marginTop: space.xxl,
+    marginBottom: space.md,
+    fontSize: fontSize.sectionHeading,
+    fontWeight: "bold",
+    color: colors.text,
   },
-  experienceCard: {
-    marginBottom: 25,
-    borderBottom: "2 solid #2c3144",
-    paddingBottom: 20,
+  card: {
+    padding: space.lg,
+    border: `1.5 solid ${colors.border}`,
   },
-  experienceCardLast: {
-    marginBottom: 25,
-    paddingBottom: 20,
+  // Cards are spaced with marginTop rather than marginBottom: react-pdf counts a node's
+  // marginBottom when checking whether it fits, which would push a card that ends just
+  // above the page bottom onto the next page.
+  cardSpacing: {
+    marginTop: space.xl,
   },
-  experienceHeader: {
-    marginBottom: 10,
+  cardHeader: {
+    rowGap: space.sm,
   },
   position: {
-    fontSize: 18,
+    fontSize: fontSize.position,
     fontWeight: "bold",
-    color: "#2c3144",
-    marginBottom: 5,
+    color: colors.text,
   },
   company: {
-    fontSize: 14,
-    color: "#2c3144",
-    opacity: 0.8,
-    marginBottom: 3,
+    fontSize: fontSize.company,
+    color: colors.textSecondary,
   },
-  locationDate: {
-    fontSize: 10,
-    color: "#2c3144",
-    opacity: 0.6,
-    marginBottom: 10,
+  metaRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    columnGap: space.lg,
+  },
+  meta: {
+    fontSize: fontSize.meta,
+    color: colors.textMuted,
   },
   description: {
-    fontSize: 11,
-    color: "#2c3144",
-    opacity: 0.8,
-    marginBottom: 12,
-    lineHeight: 1.5,
+    marginTop: space.lg,
+    fontSize: fontSize.body,
+    lineHeight,
+    color: colors.textSecondary,
   },
-  sectionTitle: {
-    fontSize: 12,
+  cardHeading: {
+    marginTop: space.lg,
+    fontSize: fontSize.cardHeading,
     fontWeight: "bold",
-    color: "#2c3144",
-    marginBottom: 8,
+    color: colors.text,
   },
-  responsibility: {
-    fontSize: 10,
-    color: "#2c3144",
-    opacity: 0.8,
-    marginBottom: 4,
-    marginLeft: 10,
-    lineHeight: 1.4,
+  bulletRow: {
+    marginTop: space.sm,
+    flexDirection: "row",
   },
-  technologiesContainer: {
+  bulletMark: {
+    width: 10,
+    fontSize: fontSize.body,
+    lineHeight,
+    color: colors.textSecondary,
+  },
+  bulletText: {
+    flex: 1,
+    fontSize: fontSize.body,
+    lineHeight,
+    color: colors.textSecondary,
+  },
+  tags: {
+    marginTop: space.sm,
     flexDirection: "row",
     flexWrap: "wrap",
-    marginTop: 10,
+    gap: space.sm,
   },
-  technology: {
-    fontSize: 9,
-    color: "#2c3144",
-    backgroundColor: "#f2f8fa",
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    marginRight: 6,
-    marginBottom: 6,
-    border: "1 solid #2c3144",
+  tag: {
+    fontSize: fontSize.tag,
+    color: colors.text,
+    backgroundColor: colors.tagBg,
+    border: `0.75 solid ${colors.border}`,
+    paddingHorizontal: space.sm,
+    paddingVertical: space.xs,
   },
   footer: {
     position: "absolute",
-    bottom: 30,
-    left: 40,
-    right: 40,
+    bottom: 24,
+    left: 36,
+    right: 36,
     textAlign: "center",
-    fontSize: 9,
-    color: "#2c3144",
-    opacity: 0.5,
+    fontSize: fontSize.footer,
+    color: colors.textMuted,
   },
 });
 
+// A bullet with a hanging indent: wrapped lines align with the text, not the bullet.
+// wrap={false} keeps a single bullet from splitting across pages.
+function Bullet({ text }: { text: string }) {
+  return (
+    <View style={styles.bulletRow} wrap={false}>
+      <Text style={styles.bulletMark}>•</Text>
+      <Text style={styles.bulletText}>{text}</Text>
+    </View>
+  );
+}
+
 export default function ResumePDF({ experiences, language }: ResumePDFProps) {
   const t = translations[language];
-
-  const formatDate = (date: string) => {
-    if (date === "Present") return t.present;
-    const [year, month] = date.split("-");
-    return `${year}.${month}`;
-  };
-
   const name = language === "hu" ? "Tasnádi Márton" : "Márton Tasnádi";
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         {/* Header */}
-        <View style={styles.header}>
+        <View>
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.title}>{t.jobTitle}</Text>
-          <View style={styles.contactInfo}>
+          <View style={styles.contactRow}>
             <Text style={styles.contactItem}>{t.phone} +36 20 2327330</Text>
             <Text style={styles.contactItem}>{t.email} marton.tasnadi@gmail.com</Text>
             <Text style={styles.contactItem}>{t.web} kistasi.hu</Text>
             <Text style={styles.contactItem}>{t.location} Budapest, Hungary</Text>
           </View>
-          <Text style={styles.subtitle}>{t.workExperience}</Text>
         </View>
 
+        <Text style={styles.sectionHeading} minPresenceAhead={120}>
+          {t.workExperience}
+        </Text>
+
         {/* Experiences */}
-        {experiences.map((experience, index) => (
-          <View key={index} style={index === experiences.length - 1 ? styles.experienceCardLast : styles.experienceCard}>
-            <View style={styles.experienceHeader}>
-              <Text style={styles.position}>{getLocalizedString(experience.position, language)}</Text>
-              <Text style={styles.company}>{experience.company}</Text>
-              <Text style={styles.locationDate}>
-                {experience.location} • {formatDate(experience.startDate)} - {formatDate(experience.endDate)}
-              </Text>
-            </View>
+        {experiences.map((experience, index) => {
+          const [firstResponsibility, ...otherResponsibilities] = getLocalizedArray(
+            experience.responsibilities,
+            language
+          );
 
-            <Text style={styles.description}>{getLocalizedString(experience.description, language)}</Text>
-
-            {/* Responsibilities */}
-            <View>
-              <Text style={styles.sectionTitle}>{t.responsibilities}</Text>
-              {getLocalizedArray(experience.responsibilities, language).map((responsibility, idx) => (
-                <Text key={idx} style={styles.responsibility}>
-                  • {responsibility}
-                </Text>
-              ))}
-            </View>
-
-            {/* Technologies */}
-            {experience.technologies && experience.technologies.length > 0 && (
-              <View>
-                <Text style={styles.sectionTitle}>{t.technologies}</Text>
-                <View style={styles.technologiesContainer}>
-                  {experience.technologies.map((tech, idx) => (
-                    <Text key={idx} style={styles.technology}>
-                      {tech}
+          return (
+            <View key={index} style={index > 0 ? [styles.card, styles.cardSpacing] : styles.card}>
+              {/* Lead block: header, description, heading and first bullet move together,
+                  so a job header is never left alone at the bottom of a page. */}
+              <View wrap={false}>
+                <View style={styles.cardHeader}>
+                  <Text style={styles.position}>{getLocalizedString(experience.position, language)}</Text>
+                  <Text style={styles.company}>{experience.company}</Text>
+                  <View style={styles.metaRow}>
+                    <Text style={styles.meta}>{experience.location}</Text>
+                    <Text style={styles.meta}>
+                      {formatDateRange(experience.startDate, experience.endDate, language)}
                     </Text>
-                  ))}
+                  </View>
                 </View>
+
+                <Text style={styles.description}>{getLocalizedString(experience.description, language)}</Text>
+
+                {firstResponsibility && (
+                  <>
+                    <Text style={styles.cardHeading}>{t.responsibilities}</Text>
+                    <Bullet text={firstResponsibility} />
+                  </>
+                )}
               </View>
-            )}
-          </View>
-        ))}
+
+              {otherResponsibilities.map((responsibility, idx) => (
+                <Bullet key={idx} text={responsibility} />
+              ))}
+
+              {experience.technologies && experience.technologies.length > 0 && (
+                <View wrap={false}>
+                  <Text style={styles.cardHeading}>{t.technologies}</Text>
+                  <View style={styles.tags}>
+                    {experience.technologies.map((tech, idx) => (
+                      <Text key={idx} style={styles.tag}>
+                        {tech}
+                      </Text>
+                    ))}
+                  </View>
+                </View>
+              )}
+            </View>
+          );
+        })}
+
+        <Text
+          style={styles.footer}
+          fixed
+          render={({ pageNumber, totalPages }) => `${name} · kistasi.hu · ${pageNumber} / ${totalPages}`}
+        />
       </Page>
     </Document>
   );
