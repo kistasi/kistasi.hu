@@ -1,4 +1,4 @@
-import { WorkExperience, getLocalizedString, getLocalizedArray } from "@/app/types/experience";
+import { WorkExperience, formatDate, getLocalizedString, getLocalizedArray } from "@/app/types/experience";
 import { Language, translations } from "@/app/types/language";
 
 interface ExperienceCardProps {
@@ -8,12 +8,6 @@ interface ExperienceCardProps {
 
 export default function ExperienceCard({ experience, language }: ExperienceCardProps) {
   const t = translations[language];
-
-  const formatDate = (date: string) => {
-    if (date === "Present") return t.present;
-    const [year, month] = date.split("-");
-    return `${year}.${month}`;
-  };
 
   return (
     <div className="border-2 border-primary bg-surface p-6 space-y-6 transition-colors duration-200">
@@ -28,7 +22,7 @@ export default function ExperienceCard({ experience, language }: ExperienceCardP
         <div className="flex flex-col md:flex-row md:justify-between gap-1 text-sm md:text-base text-primary opacity-60">
           <span>{experience.location}</span>
           <span>
-            {formatDate(experience.startDate)} - {formatDate(experience.endDate)}
+            {formatDate(experience.startDate, language)} - {formatDate(experience.endDate, language)}
           </span>
         </div>
       </div>
